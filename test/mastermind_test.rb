@@ -19,7 +19,8 @@ class MastermindTest < Minitest::Test
 
   def test_if_can_input
     mastermind = Mastermind.new
-
+    arguement = mastermind.run("i")
+    assert_equal arguement, "These are the instructions"
   end
 
 

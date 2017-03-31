@@ -10,18 +10,21 @@ class Mastermind
 
   def commands
     # { "i" => Instructions.print }
-    { "i" => "These are the instructions" }
+    { "i" => "These are the instructions",
+      "p" => "This is the game",
+      "q" => "This is how you quit"}
   end
 end
 
-mastermind = Mastermind.new
-puts mastermind.main_menu
-input = gets.chomp
-puts mastermind.run(input)
+# #DREAM DRIVEN DEVELOPMENT GOES HERE
+# mastermind = Mastermind.new
+# puts mastermind.main_menu
+# input = gets.chomp
+# puts mastermind.run(input)
 
 
 #write test for run method, while putting in "i" to verify where it takes you
 #write test for quit
 #prite test for play
 
-#While loop (think about it) 
+#While loop (think about it)
