@@ -1,11 +1,15 @@
-class Mastermind
+class Game
 
   def main_menu
     "Welcome to MASTERMIND\n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?"
   end
 
-  def run(command)
-    commands[command]
+  def quit_game
+    "Goodbye"
+  end
+
+  def run(menu_input)
+    commands[menu_input]
   end
 
   def commands
@@ -16,8 +20,8 @@ class Mastermind
   end
 end
 
-# #DREAM DRIVEN DEVELOPMENT GOES HERE
-# mastermind = Mastermind.new
+#DREAM DRIVEN DEVELOPMENT GOES HERE
+# mastermind = Game.new
 # puts mastermind.main_menu
 # input = gets.chomp
 # puts mastermind.run(input)
