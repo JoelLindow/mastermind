@@ -1,24 +1,24 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require_relative '../lib/mastermind.rb'
+require_relative '../lib/game.rb'
 require 'pry'
 
 
-class MastermindTest < Minitest::Test
+class GameTest < Minitest::Test
 
   def test_is_exists
-    mastermind = Mastermind.new
-    assert_equal Mastermind, mastermind.class
+    mastermind = Game.new
+    assert_equal Game, mastermind.class
   end
 
   def test_main_menu
-    mastermind = Mastermind.new
+    mastermind = Game.new
     greeting = "Welcome to MASTERMIND\n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?"
     assert_equal greeting, mastermind.main_menu
   end
 
   def test_if_can_input
-    mastermind = Mastermind.new
+    mastermind = Game.new
     arguement = mastermind.run("i")
     assert_equal arguement, "These are the instructions"
   end
