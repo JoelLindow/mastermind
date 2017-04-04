@@ -17,6 +17,11 @@ class GameTest < Minitest::Test
     assert_equal greeting, game.main_menu
   end
 
+  def test_respond_to_current_guess
+    game = Game.new
+    assert game.respond_to?(:generate_random_combo)
+  end
+
   def test_it_says_goodbye_when_you_quit
     game = Game.new
     goodbye = "Goodbye"
@@ -25,7 +30,7 @@ class GameTest < Minitest::Test
 
   def test_it_shows_instructions
     game = Game.new
-    instructions = "HOW TO PLAY MASTERMIND"
+    instructions = "Mastermind is a game where you must try"
     assert_includes game.show_instructions, instructions
   end
 
@@ -35,17 +40,19 @@ class GameTest < Minitest::Test
     assert_includes game.start_game_message, start
   end
 
-  def test_it_can_compare_random_to_guess_for_wrongs
-    game = Game.new(["R", "R", "R", "R"])
-    game.current_guess = ["R", "R", "R", "Y"]
-    checked_for_wrongs = ["R", "R", "R", "WRONG"]
-    assert_equal checked_for_wrongs, game.compare_random_to_guess
+
+  def test_it_can_count_correct_peg_colors
+    game = Game.new(["R", "Y", "R", "B"])
+    game.current_guess = ["B", "R", "R", "G"]
+    assert_equal 3, game.count_correct_peg_colors
+    # binding.pry
   end
 
   def test_it_can_count_correct_peg_positions
-  end
-
-  def test_it_can_count_correct_peg_colors
+    game = Game.new(["R", "Y", "R", "B"])
+    game.current_guess = ["B", "R", "R", "G"]
+    game.guess_checked_for_wrongs = game.compare_random_to_guess
+    assert_equal 1, game.count_correct_peg_positions
   end
 
 end #<-- class end
