@@ -1,3 +1,5 @@
+require "pry"
+
 class Messages
 
   def instructions
@@ -42,6 +44,7 @@ class Messages
   "'#{current_guess.join}' has #{correct_colors} of the correct elements with #{correct_positions} in the correct positions
 You've taken #{guess_counter} guess
   Keep (p)laying or (q)uit?"
+  # binding.pry
   end
 
   def correct_guess(current_guess)

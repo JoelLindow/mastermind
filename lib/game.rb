@@ -44,10 +44,10 @@ class Game
       system "clear"
       puts message.wrong_guess(current_guess, correct_colors, correct_positions, guess_counter)
       keep_playing = gets.chomp
-      if keep_playing == "p"
+      if keep_playing == ("p" || "play")
         puts message.what_next_guess
         start_game
-      elsif keep_playing == "q"
+      elsif keep_playing == ("q" || "quit")
         quit_game
       else
         puts message.not_option_message
