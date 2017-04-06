@@ -1,15 +1,15 @@
 require './lib/game'
 
-class Mastermind
+class MastermindMenu
 
   def start_menu
     game = Game.new
     puts game.main_menu
     menu_input = gets.chomp.downcase
-    handle_menu_input(game, menu_input)  #<--- passing info
+    handle_menu_input(game, menu_input)
   end
 
-  def handle_menu_input(game, menu_input)  #<--- taking in info
+  def handle_menu_input(game, menu_input)
     if menu_input == ("q" || "quit")
       puts game.quit_game
     elsif menu_input == ("i" || "instructions")
@@ -20,10 +20,10 @@ class Mastermind
       game.game_start_time = Time.now
       puts game.start_game_message
       game.active_game_play
+    else
+      system "clear"
+      start_menu
     end
   end
 
-end  #<--class Mastermind End
-
-mastermind = Mastermind.new  #<-- new instance
-mastermind.start_menu        #<-- new instance starting at start menu_input
+end

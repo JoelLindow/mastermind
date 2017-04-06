@@ -1,6 +1,4 @@
-require "pry"
-
-class Messages
+class Message
 
   def instructions
    banner = "    *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
