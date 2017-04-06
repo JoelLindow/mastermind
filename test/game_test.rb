@@ -1,12 +1,10 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/game'
-require 'pry'
-
 
 class GameTest < Minitest::Test
 
-  def test_is_exists
+  def test_it_exists
     game = Game.new
     assert_equal Game, game.class
   end
@@ -40,19 +38,30 @@ class GameTest < Minitest::Test
     assert_includes game.start_game_message, start
   end
 
-
-  def test_it_can_count_correct_peg_colors
-    game = Game.new(["R", "Y", "R", "B"])
-    game.current_guess = ["B", "R", "R", "G"]
-    assert_equal 3, game.count_correct_peg_colors
-    # binding.pry
+  def test_it_can_detect_cheat_requested
+    game = Game.new
+    assert game.cheat_requested?("C")
+    assert game.cheat_requested?("CHEAT")
+    refute game.cheat_requested?("BANANA")
   end
 
-  def test_it_can_count_correct_peg_positions
-    game = Game.new(["R", "Y", "R", "B"])
-    game.current_guess = ["B", "R", "R", "G"]
-    game.guess_checked_for_wrongs = game.compare_random_to_guess
-    assert_equal 1, game.count_correct_peg_positions
+  def test_it_can_check_if_guess_is_wrong_length
+    game = Game.new
+    refute game.wrong_length?("RRRR")
+    assert game.wrong_length?("RRR")
+    assert game.wrong_length?("RRRBB")
   end
 
-end #<-- class end
+  def test_it_can_set_attributes_from_recorded_guess
+    game = Game.new(["R", "R", "R", "R"])
+    game.record_guess("GRBY")
+    assert_equal ["G", "R", "B", "Y"], game.current_guess
+    assert_equal ["X", "R", "X", "X"], game.guess_checked_for_wrongs
+    assert_equal 1, game.correct_positions
+    assert_equal 1, game.correct_colors
+  end
+
+
+
+
+end

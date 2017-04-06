@@ -19,4 +19,19 @@ class GuessEvaluatorTest < Minitest::Test
     assert_equal checked_for_wrongs, guess_evaluator.compare_random_to_guess
   end
 
+  def test_it_can_count_correct_peg_colors
+    guess_evaluator = GuessEvaluator.new
+    guess_evaluator.current_guess = ["R", "R", "R", "Y"]
+    guess_evaluator.random_sequence = ["R", "R", "R", "R"]
+
+    assert_equal 3, guess_evaluator.count_correct_peg_colors
+  end
+
+  def test_it_can_count_correct_peg_positions
+    guess_evaluator = GuessEvaluator.new
+    guess_evaluator.current_guess = ["R", "G", "B", "R"]
+    guess_evaluator.random_sequence = ["R", "R", "R", "R"]
+
+    assert_equal 2, guess_evaluator.count_correct_peg_positions
+  end
 end
