@@ -31,7 +31,7 @@ class Game
 
   def active_game_play
     user_input = gets.chomp.upcase
-  unless cheat_requested?(user_input)
+  unless cheat_requested?(user_input) || wrong_length?(user_input) || quit_requested?(user_input)
       record_guess(user_input)
       @guess_checked_for_wrongs = guess_evaluator.compare_random_to_guess
       @correct_positions = count_correct_peg_positions
@@ -62,6 +62,16 @@ class Game
       sleep(2)
       system "clear"
       puts message.wrong_guess(current_guess, correct_colors, correct_positions, guess_counter)
+      active_game_play
+    elsif quit_requested?(user_input)
+      system "clear"
+      puts message.goodbye
+    elsif wrong_length?(user_input)
+      if user_input.length > 4
+        puts message.too_long
+      else
+        puts message.too_short
+      end
       active_game_play
     else
       @guess_counter += 1
@@ -113,6 +123,14 @@ class Game
 
   def cheat_requested?(user_input)
     ["C", "CHEAT"].include?(user_input)
+  end
+
+  def quit_requested?(user_input)
+    ["Q", "QUIT"].include?(user_input)
+  end
+
+  def wrong_length?(user_input)
+    user_input.length > 4 || user_input.length < 4
   end
 
   def show_instructions

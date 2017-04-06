@@ -65,6 +65,14 @@ Guess again!"
     "What's your Next Guess?"
   end
 
+  def too_long
+    "That guess was way too long. Must be 4 characters only! Guess again!"
+  end
+
+  def too_short
+    "That guess was way too short. Must be 4 characters only! Guess again!"
+  end
+
   def goodbye
     "Goodbye"
   end
