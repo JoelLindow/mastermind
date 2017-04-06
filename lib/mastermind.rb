@@ -17,8 +17,9 @@ class Mastermind
       start_menu
     elsif menu_input == ("p" || "play")
       system "clear"
+      game.game_start_time = Time.now
       puts game.start_game_message
-      game.start_game
+      game.active_game_play
     end
   end
 
