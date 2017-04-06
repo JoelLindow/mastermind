@@ -2,8 +2,8 @@ class GuessEvaluator
 attr_accessor :current_guess, :random_sequence
 
   def initialize
-    @current_guess = nil
-    @random_sequence = nil
+    @current_guess = []
+    @random_sequence = []
   end
 
   def compare_random_to_guess

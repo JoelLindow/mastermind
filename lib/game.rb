@@ -1,21 +1,25 @@
 require './lib/messages'
 require './lib/guess_evaluator'
+# require './lib/mastermind'
 require 'pry'
 
 class Game
   attr_reader :random_combo, :message, :guess_evaluator
   attr_accessor :current_guess, :guess_checked_for_wrongs, :correct_positions,
-                :correct_colors, :guess_counter
+  :correct_colors, :guess_counter, :game_start_time, :game_end_time
 
   def initialize(random_combo = generate_random_combo)
     @random_combo = random_combo
     @message = Messages.new
     @guess_evaluator = GuessEvaluator.new
-    @current_guess = nil
-    @guess_checked_for_wrongs = nil
-    @correct_positions = nil
-    @correct_colors = nil
+    @current_guess = []
+    @guess_checked_for_wrongs = []
+    @correct_positions = 0
+    @correct_colors = 0
     @guess_counter = 0
+    @game_start_time = 0
+    @game_end_time = 0
+
   end
 
   def generate_random_combo
@@ -25,34 +29,45 @@ class Game
     end
   end
 
-  def start_game
-    take_a_guess
-    @guess_checked_for_wrongs = guess_evaluator.compare_random_to_guess
-    @correct_positions = count_correct_peg_positions
-    @correct_colors = count_correct_peg_colors
-    # binding.pry
-    critique_guess
+  def active_game_play
+    user_input = gets.chomp.upcase
+  unless cheat_requested?(user_input)
+      record_guess(user_input)
+      @guess_checked_for_wrongs = guess_evaluator.compare_random_to_guess
+      @correct_positions = count_correct_peg_positions
+      @correct_colors = count_correct_peg_colors
+    end
+    critique_guess(user_input)
 
   end
 
-  def critique_guess
-    @guess_counter += 1
+
+  def critique_guess(user_input)
     if current_guess == random_combo
+      @guess_counter += 1
       system "clear"
-      puts message.correct_guess(current_guess)
-    else
+      @game_end_time = Time.now
+      puts message.correct_guess(current_guess, guess_counter, game_length_timer[0], game_length_timer[1])
+      reset_all_parameters
+      keep_playing = gets.chomp
+      if keep_playing == ("p" || "play")
+        mastermind = Mastermind.new
+        mastermind.start_menu
+      elsif keep_playing == ("q" || "quit")
+        quit_game
+      end
+    elsif cheat_requested?(user_input)
+      system "clear"
+      puts message.cheat(random_combo)
+      sleep(2)
       system "clear"
       puts message.wrong_guess(current_guess, correct_colors, correct_positions, guess_counter)
-      keep_playing = gets.chomp
-      if keep_playing == "p"
-        puts message.what_next_guess
-        start_game
-      elsif keep_playing == "q"
-        quit_game
-      else
-        puts message.not_option_message
-        critique_guess
-      end
+      active_game_play
+    else
+      @guess_counter += 1
+      system "clear"
+      puts message.wrong_guess(current_guess, correct_colors, correct_positions, guess_counter)
+      active_game_play
     end
   end
 
@@ -72,13 +87,33 @@ class Game
     4 - color_check.count
   end
 
-  def take_a_guess
-      @current_guess = gets.chomp.upcase.chars
-      guess_evaluator.current_guess = current_guess
-      guess_evaluator.random_sequence = random_combo
+  def record_guess(user_input)
+    @current_guess = user_input.chars
+    guess_evaluator.current_guess = current_guess
+    guess_evaluator.random_sequence = random_combo
   end
 
+  def game_length_timer
+    game_timer = (game_end_time - game_start_time).to_i
+    minutes = (game_timer / 60)
+    seconds = (game_timer % 60)
+    [minutes, seconds]
+  end
 
+  def reset_all_parameters
+    @random_combo = generate_random_combo
+    @current_guess = nil
+    @guess_checked_for_wrongs = nil
+    @correct_positions = nil
+    @correct_colors = nil
+    @guess_counter = 0
+    @game_start_time = nil
+    @game_end_time = nil
+  end
+
+  def cheat_requested?(user_input)
+    ["C", "CHEAT"].include?(user_input)
+  end
 
   def show_instructions
     message.instructions

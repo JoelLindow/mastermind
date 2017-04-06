@@ -1,3 +1,5 @@
+require "pry"
+
 class Messages
 
   def instructions
@@ -40,19 +42,23 @@ class Messages
 
   def wrong_guess(current_guess, correct_colors, correct_positions, guess_counter)
   "'#{current_guess.join}' has #{correct_colors} of the correct elements with #{correct_positions} in the correct positions
-You've taken #{guess_counter} guess
-  Keep (p)laying or (q)uit?"
+You've taken #{guess_counter} guesses.
+Guess again!"
   end
 
-  def correct_guess(current_guess)
-  "Congratulations! You guessed the sequence '#{current_guess.join}' in 8 guesses over 4 minutes,
-  22 seconds.
+  def correct_guess(current_guess, guess_counter, minutes, seconds)
+  "Congratulations! You guessed the sequence '#{current_guess.join}' in #{guess_counter} guesses over #{minutes} minutes,
+  #{seconds} seconds.
 
   Do you want to (p)lay again or (q)uit?"
   end
 
   def not_option_message
     "That is not an option. Please try again."
+  end
+
+  def cheat(random_combo)
+    "OMG! U has teh 1337 Hax0rz! Code is #{random_combo.join}"
   end
 
   def what_next_guess

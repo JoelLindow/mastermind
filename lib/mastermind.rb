@@ -10,15 +10,16 @@ class Mastermind
   end
 
   def handle_menu_input(game, menu_input)  #<--- taking in info
-    if menu_input == "q"
+    if menu_input == ("q" || "quit")
       puts game.quit_game
-    elsif menu_input == "i"
+    elsif menu_input == ("i" || "instructions")
       puts game.show_instructions
       start_menu
-    elsif menu_input == "p"
+    elsif menu_input == ("p" || "play")
       system "clear"
+      game.game_start_time = Time.now
       puts game.start_game_message
-      game.start_game
+      game.active_game_play
     end
   end
 
